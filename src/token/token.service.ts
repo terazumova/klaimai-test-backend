@@ -30,13 +30,13 @@ export class TokenService {
     return token;
   }
 
-  private async verifyToken(token): Promise<any> {
+  async verifyToken(token): Promise<any> {
     try {
       const data = this.jwtService.verify(token);
       const tokenObject = await this.findToken(token);
 
       if (tokenObject) {
-        return data;
+        return { userId: data?.sub };
       }
       throw new UnauthorizedException();
     } catch (error) {
