@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
@@ -18,14 +18,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
-    // const token = req.headers.authorization.slice(7);
-    // const tokenExists = await this.tokenService.exists(user._id, token);
-    // if (tokenExists) {
-    //   return user;
-    // } else {
-    //   throw new UnauthorizedException();
-    // }
-    //return { userId: payload.sub, username: payload.username };
+  async validate(req) {
+    const token = req?.query?.token;
+    if (token) {
+      return await this.tokenService.verifyToken(token);
+    }
+
+    throw new UnauthorizedException();
   }
 }
