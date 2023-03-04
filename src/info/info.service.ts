@@ -9,24 +9,10 @@ export class InfoService {
     @InjectRepository(Info) private readonly infoRepository: Repository<Info>,
   ) {}
 
-  async getDescription() {
-    const infoObject = await this.infoRepository.findOne({
+  getDescription() {
+    return this.infoRepository.findOne({
       where: {},
       order: { id: 'DESC' },
     });
-
-    if (!infoObject) {
-      return {
-        success: false,
-        data: {},
-      };
-    }
-
-    return {
-      success: true,
-      data: {
-        info: infoObject.info,
-      },
-    };
   }
 }

@@ -6,7 +6,20 @@ export class InfoController {
   constructor(private readonly infoService: InfoService) {}
 
   @Get()
-  getInfo() {
-    return this.infoService.getDescription();
+  async getInfo() {
+    const description = await this.infoService.getDescription();
+    if (!description) {
+      return {
+        success: false,
+        data: {},
+      };
+    }
+
+    return {
+      success: true,
+      data: {
+        info: description.info,
+      },
+    };
   }
 }
