@@ -2,6 +2,7 @@ import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { TokenService } from 'src/token/token.service';
+import { Users } from 'src/typeorm/users.entity';
 
 @Injectable()
 export class AuthService {
@@ -22,8 +23,12 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
+  async login(user: Users) {
     await this.tokenService.deleteOldToken(user.id);
     return await this.tokenService.generateToken(user);
+  }
+
+  async logout(user: Users) {
+    return await this.tokenService.deleteOldToken(user.id);
   }
 }

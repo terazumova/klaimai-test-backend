@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tokens } from 'src/typeorm/tokens.entity';
 import { Users } from 'src/typeorm/users.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class TokenService {
@@ -36,7 +36,7 @@ export class TokenService {
       const tokenObject = await this.findToken(token);
 
       if (tokenObject) {
-        return { userId: data?.sub };
+        return { id: data?.sub };
       }
       throw new UnauthorizedException();
     } catch (error) {
@@ -54,7 +54,7 @@ export class TokenService {
     });
   }
 
-  async deleteOldToken(userId: number): Promise<void> {
-    await this.tokenRepository.delete({ user: { id: userId } });
+  async deleteOldToken(userId: number): Promise<DeleteResult> {
+    return await this.tokenRepository.delete({ user: { id: userId } });
   }
 }
