@@ -8,7 +8,7 @@ export class createTokensTable1677757479942 implements MigrationInterface {
               token varchar NOT NULL,
               "userId" int,
               FOREIGN KEY ("userId") REFERENCES users (id)
-          )`,
+      )`,
     );
   }
 

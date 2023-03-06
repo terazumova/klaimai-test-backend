@@ -4,6 +4,7 @@ import { createInfoTable1677655779587 } from 'src/migrations/1677655779587-creat
 import { createUsersTable1677677372374 } from 'src/migrations/1677677372374-createUsersTable';
 import { createTokensTable1677757479942 } from 'src/migrations/1677757479942-createTokensTable';
 import { createAuthorTable1677956169413 } from 'src/migrations/1677956169413-createAuthorTable';
+import { createQuoteTable1678008258623 } from 'src/migrations/1678008258623-createQuoteTable';
 
 const databaseConfig: DataSourceOptions = {
   type: 'postgres',
@@ -19,6 +20,7 @@ const databaseConfig: DataSourceOptions = {
     createUsersTable1677677372374,
     createTokensTable1677757479942,
     createAuthorTable1677956169413,
+    createQuoteTable1678008258623,
   ],
 };
 

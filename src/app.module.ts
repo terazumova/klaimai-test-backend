@@ -5,6 +5,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthorModule } from './author/author.module';
+import { QuoteModule } from './quote/quote.module';
 import databaseConfig from './config/database-config';
 
 @Module({
@@ -21,6 +22,7 @@ import databaseConfig from './config/database-config';
     UserModule,
     AuthModule,
     AuthorModule,
+    QuoteModule,
   ],
   controllers: [],
   providers: [],

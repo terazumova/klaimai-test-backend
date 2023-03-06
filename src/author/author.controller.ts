@@ -21,7 +21,7 @@ export class AuthorController {
     return {
       success: true,
       data: {
-        authorId: author.authorId,
+        authorId: author.id,
         name: author.name,
       },
     };
