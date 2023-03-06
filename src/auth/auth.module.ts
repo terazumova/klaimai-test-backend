@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { LoginController } from './controllers/login.controller';
 import { RegisterController } from './controllers/register.controller';
 import { LocalStrategy } from './local.strategy';
+import { LogoutController } from './controllers/logout.controller';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -25,7 +26,7 @@ dotenv.config();
       secret: process.env.JWT_SECRET,
     }),
   ],
-  controllers: [RegisterController, LoginController],
+  controllers: [RegisterController, LoginController, LogoutController],
   providers: [
     AuthService,
     LocalStrategy,
