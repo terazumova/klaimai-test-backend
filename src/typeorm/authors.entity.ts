@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Authors extends BaseEntity {
   @PrimaryGeneratedColumn()
-  authorId: number;
+  id: number;
 
   @Column({
     nullable: false,
