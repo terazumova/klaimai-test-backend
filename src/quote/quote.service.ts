@@ -11,10 +11,16 @@ export class QuoteService {
   ) {}
 
   async getRandomQuote(authorId: number) {
-    return await this.quotesRepository
-      .createQueryBuilder('quotes')
-      .where('quotes.authorId = :id', { id: authorId })
-      .orderBy('RANDOM()')
-      .getOne();
+    return new Promise<Quotes>((resolve) => {
+      setTimeout(async () => {
+        const quote = await this.quotesRepository
+          .createQueryBuilder('quotes')
+          .where('quotes.authorId = :id', { id: authorId })
+          .orderBy('RANDOM()')
+          .getOne();
+
+        resolve(quote);
+      }, 5000);
+    });
   }
 }

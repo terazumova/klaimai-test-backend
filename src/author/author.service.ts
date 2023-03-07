@@ -11,9 +11,15 @@ export class AuthorService {
   ) {}
 
   async getRandomAuthor() {
-    return await this.authorsRepository
-      .createQueryBuilder()
-      .orderBy('RANDOM()')
-      .getOne();
+    return new Promise<Authors>((resolve) => {
+      setTimeout(async () => {
+        const author = await this.authorsRepository
+          .createQueryBuilder()
+          .orderBy('RANDOM()')
+          .getOne();
+
+        resolve(author);
+      }, 5000);
+    });
   }
 }
