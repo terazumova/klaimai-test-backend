@@ -14,7 +14,9 @@ export class AuthorController {
     if (!author) {
       return {
         success: false,
-        data: {},
+        data: {
+          message: 'No author was found.',
+        },
       };
     }
 

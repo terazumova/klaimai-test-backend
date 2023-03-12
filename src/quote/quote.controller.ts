@@ -14,7 +14,9 @@ export class QuoteController {
     if (!quote) {
       return {
         success: false,
-        data: {},
+        data: {
+          message: "Quote wasn't found.",
+        },
       };
     }
     return {

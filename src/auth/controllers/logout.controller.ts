@@ -16,23 +16,11 @@ export class LogoutController {
   @UseGuards(JwtAuthGuard)
   @Delete()
   async logout(@Request() req) {
-    try {
-      await this.authService.logout(req.user);
+    await this.authService.logout(req.user);
 
-      return {
-        success: true,
-        data: {},
-      };
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.FORBIDDEN,
-        },
-        HttpStatus.FORBIDDEN,
-        {
-          cause: error,
-        },
-      );
-    }
+    return {
+      success: true,
+      data: {},
+    };
   }
 }
