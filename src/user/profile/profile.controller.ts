@@ -9,8 +9,9 @@ export class ProfileController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async getProfileInformation(@Request() req) {
-    const userId = req?.user?.userId;
-    const user = userId ? await this.userService.findById(userId) : null;
+    const userId = req?.user?.id;
+    const user =
+      userId !== undefined ? await this.userService.findById(userId) : null;
 
     if (!user) {
       return {

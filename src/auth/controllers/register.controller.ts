@@ -24,7 +24,12 @@ export class RegisterController {
     const user = await this.userService.findByEmail(email);
 
     if (user) {
-      throw new NotAcceptableException('User with this email already exists.');
+      return {
+        success: false,
+        data: {
+          message: 'User with this email already exists.',
+        },
+      };
     }
 
     const newUser = await this.userService.createUser(createUserDto);

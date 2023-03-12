@@ -1,15 +1,43 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Request } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
 import { AuthService } from '../auth.service';
-import { LocalAuthGuard } from '../local-auth.guard';
 
 @Controller('login')
 export class LoginController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post()
   async login(@Request() req) {
-    const generatedToken = await this.authService.login(req.user);
+    const { email, password } = req.body;
+    const user = await this.userService.findByEmail(email);
+
+    if (!user) {
+      return {
+        success: false,
+        data: {
+          message: "There's no such user.",
+        },
+      };
+    }
+
+    const arePasswordsEqual = await this.authService.comparePasswords(
+      user.password,
+      password,
+    );
+
+    if (!arePasswordsEqual) {
+      return {
+        success: false,
+        data: {
+          message: 'The password is wrong.',
+        },
+      };
+    }
+
+    const generatedToken = await this.authService.login(user);
 
     if (generatedToken) {
       return {

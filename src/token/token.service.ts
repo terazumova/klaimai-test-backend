@@ -38,6 +38,7 @@ export class TokenService {
       if (tokenObject) {
         return { id: data?.sub };
       }
+
       throw new UnauthorizedException();
     } catch (error) {
       throw new UnauthorizedException();
@@ -55,6 +56,14 @@ export class TokenService {
   }
 
   async deleteOldToken(userId: number): Promise<DeleteResult> {
-    return await this.tokenRepository.delete({ user: { id: userId } });
+    if (userId !== undefined) {
+      return await this.tokenRepository
+        .createQueryBuilder('tokens')
+        .delete()
+        .where('userId = :id', { id: userId })
+        .execute();
+    }
+
+    return null;
   }
 }

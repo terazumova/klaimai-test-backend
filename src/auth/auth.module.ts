@@ -11,25 +11,20 @@ import { UserModule } from 'src/user/user.module';
 import { AuthService } from './auth.service';
 import { LoginController } from './controllers/login.controller';
 import { RegisterController } from './controllers/register.controller';
-import { LocalStrategy } from './local.strategy';
 import { LogoutController } from './controllers/logout.controller';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
-
+import { jwtConstants } from './constants';
 @Module({
   imports: [
     UserModule,
     TypeOrmModule.forFeature([Tokens]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret: jwtConstants.secret,
     }),
   ],
   controllers: [RegisterController, LoginController, LogoutController],
   providers: [
     AuthService,
-    LocalStrategy,
     JwtStrategy,
     ConfigService,
     TokenService,

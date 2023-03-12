@@ -8,6 +8,7 @@ export class InfoController {
   @Get()
   async getInfo() {
     const description = await this.infoService.getDescription();
+
     if (!description) {
       return {
         success: false,
