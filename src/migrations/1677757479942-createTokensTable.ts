@@ -6,8 +6,9 @@ export class createTokensTable1677757479942 implements MigrationInterface {
       `CREATE TABLE tokens (
         id serial PRIMARY KEY,
         token varchar NOT NULL,
-        "userId" int,
-        FOREIGN KEY ("userId") REFERENCES users (id)
+        "userId" int UNIQUE,
+        FOREIGN KEY ("userId") REFERENCES users (id),
+        "expiresAt" varchar NOT NULL
       )`,
     );
   }

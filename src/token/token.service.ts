@@ -1,5 +1,5 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tokens } from 'src/typeorm/tokens.entity';
 import { Users } from 'src/typeorm/users.entity';
@@ -8,21 +8,17 @@ import { DeleteResult, Repository } from 'typeorm';
 @Injectable()
 export class TokenService {
   constructor(
-    private readonly jwtService: JwtService,
     @InjectRepository(Tokens)
     private tokenRepository: Repository<Tokens>,
   ) {}
 
   async generateToken(user: Users) {
-    const expiresIn = 60 * 60 * 24;
-    const payload = {
-      sub: user.id,
-      username: user.email,
-    };
-    const token = await this.jwtService.sign(payload, { expiresIn });
+    const expiresAt = this.getExpiresDate().toString();
+    const token = uuidv4();
     const tokenObject = await this.tokenRepository.create({
       token,
       user,
+      expiresAt,
     });
 
     await this.tokenRepository.save(tokenObject);
@@ -30,19 +26,15 @@ export class TokenService {
     return token;
   }
 
-  async verifyToken(token): Promise<any> {
-    try {
-      const data = this.jwtService.verify(token);
-      const tokenObject = await this.findToken(token);
+  async verifyToken(token): Promise<boolean> {
+    const tokenObject = await this.findToken(token);
+    const parsedDate = Date.parse(tokenObject.expiresAt);
 
-      if (tokenObject) {
-        return { id: data?.sub };
-      }
-
-      throw new UnauthorizedException();
-    } catch (error) {
-      throw new UnauthorizedException();
+    if (tokenObject && parsedDate && !this.isTokenExpired(parsedDate)) {
+      return true;
     }
+
+    return false;
   }
 
   async findToken(token: string): Promise<Tokens> {
@@ -51,19 +43,33 @@ export class TokenService {
 
   async findTokenByUserId(userId: number): Promise<Tokens> {
     return await this.tokenRepository.findOne({
-      where: { user: { id: userId } },
+      where: { userId },
     });
   }
 
-  async deleteOldToken(userId: number): Promise<DeleteResult> {
+  async deleteOldTokenByUserId(userId: number): Promise<DeleteResult> {
     if (userId !== undefined) {
-      return await this.tokenRepository
-        .createQueryBuilder('tokens')
-        .delete()
-        .where('userId = :id', { id: userId })
-        .execute();
+      return await this.tokenRepository.delete({ userId });
     }
 
     return null;
   }
+
+  async deleteOldToken(token: string): Promise<DeleteResult> {
+    if (token !== undefined) {
+      return await this.tokenRepository.delete({ token });
+    }
+
+    return null;
+  }
+
+  getExpiresDate = (): Date => {
+    const currentTime = new Date().getTime();
+
+    return new Date(currentTime + 60 * 60 * 24 * 1000);
+  };
+
+  isTokenExpired = (expiresDate): boolean => {
+    return Date.now() > expiresDate;
+  };
 }
