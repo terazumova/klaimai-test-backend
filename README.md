@@ -32,5 +32,5 @@ $ npm run test:cov
 ```
 
 - DB schema
+![DB-schema](https://user-images.githubusercontent.com/91330703/224913154-7c7be869-29fa-4574-b574-64f566220e64.png)
 
-![DB schema](https://user-images.githubusercontent.com/91330703/224701564-5a71a714-2324-458a-b138-02d36dd79ef8.png)
