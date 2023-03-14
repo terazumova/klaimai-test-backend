@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { QuoteService } from './quote.service';
 import { QuoteController } from './quote.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Quotes } from 'src/typeorm/quotes.entity';
+import { Quotes } from '../typeorm/quotes.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Quotes])],

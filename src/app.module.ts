@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { InfoModule } from './info/info.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -7,6 +7,9 @@ import { AuthModule } from './auth/auth.module';
 import { AuthorModule } from './author/author.module';
 import { QuoteModule } from './quote/quote.module';
 import databaseConfig from './config/database-config';
+import { ValidationMiddleware } from './auth/validation.middleware';
+import { TokenService } from './token/token.service';
+import { Tokens } from './typeorm/tokens.entity';
 
 @Module({
   imports: [
@@ -18,6 +21,7 @@ import databaseConfig from './config/database-config';
       },
       inject: [ConfigService],
     }),
+    TypeOrmModule.forFeature([Tokens]),
     InfoModule,
     UserModule,
     AuthModule,
@@ -25,6 +29,12 @@ import databaseConfig from './config/database-config';
     QuoteModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [TokenService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(ValidationMiddleware)
+      .forRoutes('profile', 'author', 'quote', 'logout');
+  }
+}

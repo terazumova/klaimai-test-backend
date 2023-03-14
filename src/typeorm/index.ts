@@ -7,4 +7,9 @@ import { Users } from './users.entity';
 const entities = [Info, Users, Tokens, Authors, Quotes];
 
 export { Info };
+export { Users };
+export { Tokens };
+export { Authors };
+export { Quotes };
+
 export default entities;

@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  NotAcceptableException,
   Post,
   UsePipes,
   ValidationPipe,
@@ -34,7 +33,9 @@ export class RegisterController {
 
     const newUser = await this.userService.createUser(createUserDto);
 
-    await this.tokenService.generateToken(newUser);
+    if (newUser) {
+      await this.tokenService.generateToken(newUser);
+    }
 
     return {
       success: !!newUser ?? false,

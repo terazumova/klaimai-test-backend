@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Info } from 'src/typeorm';
+import { Info } from '../typeorm';
 import { InfoController } from './info.controller';
 import { InfoService } from './info.service';
 

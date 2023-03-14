@@ -1,10 +1,10 @@
 import entities from '../typeorm/index';
 import { DataSourceOptions } from 'typeorm';
-import { createInfoTable1677655779587 } from 'src/migrations/1677655779587-createInfoTable';
-import { createUsersTable1677677372374 } from 'src/migrations/1677677372374-createUsersTable';
-import { createTokensTable1677757479942 } from 'src/migrations/1677757479942-createTokensTable';
-import { createAuthorTable1677956169413 } from 'src/migrations/1677956169413-createAuthorTable';
-import { createQuoteTable1678008258623 } from 'src/migrations/1678008258623-createQuoteTable';
+import { createInfoTable1677655779587 } from '../migrations/1677655779587-createInfoTable';
+import { createUsersTable1677677372374 } from '../migrations/1677677372374-createUsersTable';
+import { createTokensTable1677757479942 } from '../migrations/1677757479942-createTokensTable';
+import { createAuthorTable1677956169413 } from '../migrations/1677956169413-createAuthorTable';
+import { createQuoteTable1678008258623 } from '../migrations/1678008258623-createQuoteTable';
 
 const databaseConfig: DataSourceOptions = {
   type: 'postgres',
