@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from 'src/typeorm/users.entity';
+import { Users } from '../typeorm/users.entity';
 import { UserService } from './user.service';
 import { ProfileController } from './profile/profile.controller';
-import { TokenService } from 'src/token/token.service';
-import { Tokens } from 'src/typeorm/tokens.entity';
+import { TokenService } from '../token/token.service';
+import { Tokens } from '../typeorm/tokens.entity';
 
 @Module({
   imports: [

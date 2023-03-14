@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { TokenService } from 'src/token/token.service';
-import { Users } from 'src/typeorm/users.entity';
+import { TokenService } from '../token/token.service';
+import { Users } from '../typeorm/users.entity';
 
 @Injectable()
 export class AuthService {
