@@ -1,15 +1,18 @@
-import { Controller, Get, UseGuards, Request } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Controller, Get, Query } from '@nestjs/common';
+import { TokenService } from 'src/token/token.service';
 import { UserService } from '../user.service';
 
 @Controller('profile')
 export class ProfileController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly tokenService: TokenService,
+  ) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get()
-  async getProfileInformation(@Request() req) {
-    const userId = req?.user?.id;
+  async getProfileInformation(@Query() query) {
+    const tokenObject = await this.tokenService.findToken(query.token);
+    const userId = tokenObject?.userId;
     const user =
       userId !== undefined ? await this.userService.findById(userId) : null;
 

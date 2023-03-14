@@ -13,8 +13,11 @@ export class Tokens extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Users)
-  @JoinColumn()
+  @Column({ name: 'userId' })
+  userId: number;
+
+  @OneToOne(() => Users, { nullable: false })
+  @JoinColumn({ name: 'userId' })
   user: Users;
 
   @Column({
@@ -22,4 +25,10 @@ export class Tokens extends BaseEntity {
     default: '',
   })
   token: string;
+
+  @Column({
+    nullable: false,
+    type: 'date',
+  })
+  expiresAt: string;
 }

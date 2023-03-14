@@ -1,25 +1,25 @@
-import {
-  Controller,
-  Delete,
-  UseGuards,
-  Request,
-  HttpStatus,
-  HttpException,
-} from '@nestjs/common';
-import { AuthService } from '../auth.service';
-import { JwtAuthGuard } from '../jwt-auth.guard';
+import { Controller, Delete, Query } from '@nestjs/common';
+import { TokenService } from 'src/token/token.service';
 
 @Controller('logout')
 export class LogoutController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly tokenService: TokenService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Delete()
-  async logout(@Request() req) {
-    await this.authService.logout(req.user);
+  async logout(@Query() query) {
+    const token = query?.token;
+
+    if (token) {
+      await this.tokenService.deleteOldToken(token);
+
+      return {
+        success: true,
+        data: {},
+      };
+    }
 
     return {
-      success: true,
+      success: false,
       data: {},
     };
   }
