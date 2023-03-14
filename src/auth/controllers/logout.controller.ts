@@ -1,5 +1,5 @@
 import { Controller, Delete, Query } from '@nestjs/common';
-import { TokenService } from 'src/token/token.service';
+import { TokenService } from '../../token/token.service';
 
 @Controller('logout')
 export class LogoutController {

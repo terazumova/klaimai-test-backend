@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Tokens } from 'src/typeorm/tokens.entity';
-import { Users } from 'src/typeorm/users.entity';
+import { Tokens } from '../typeorm/tokens.entity';
+import { Users } from '../typeorm/users.entity';
 import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
@@ -28,9 +28,14 @@ export class TokenService {
 
   async verifyToken(token): Promise<boolean> {
     const tokenObject = await this.findToken(token);
+
+    if (!tokenObject) {
+      return false;
+    }
+
     const parsedDate = Date.parse(tokenObject.expiresAt);
 
-    if (tokenObject && parsedDate && !this.isTokenExpired(parsedDate)) {
+    if (parsedDate && !this.isTokenExpired(parsedDate)) {
       return true;
     }
 

@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { TokenService } from 'src/token/token.service';
+import { TokenService } from '../../token/token.service';
 import { UserService } from '../user.service';
 
 @Controller('profile')
